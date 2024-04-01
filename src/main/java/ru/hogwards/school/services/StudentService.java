@@ -57,7 +57,7 @@ public class StudentService {
         return studentRepository.countStudents();
     }
 
-    public Integer avgAgeOfStudents(){
+    public Float avgAgeOfStudents(){
         return studentRepository.AvgAgeOfStudents();
     }
 
