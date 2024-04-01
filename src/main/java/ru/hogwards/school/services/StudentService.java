@@ -1,6 +1,7 @@
 package ru.hogwards.school.services;
 
 import org.springframework.stereotype.Service;
+import ru.hogwards.school.model.AmountOfStudents;
 import ru.hogwards.school.model.Faculty;
 import ru.hogwards.school.model.Student;
 import ru.hogwards.school.repositories.StudentRepository;
@@ -51,6 +52,19 @@ public class StudentService {
     public Faculty findFacultyOfStudent(long id) {
         return findStudent(id).getFaculty();
     }
+
+    public Integer countStudents(){
+        return studentRepository.countStudents();
+    }
+
+    public Integer avgAgeOfStudents(){
+        return studentRepository.AvgAgeOfStudents();
+    }
+
+    public List <Student> lastFiveStudents (){
+        return studentRepository.getLastFiveStudents();
+    }
+
 
 
 //    public List<Student> getStudentsByAge(int age) {

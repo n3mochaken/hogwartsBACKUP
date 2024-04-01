@@ -1,14 +1,17 @@
 package ru.hogwards.school.controllers;
 
 
+import org.hibernate.type.IntegerType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwards.school.model.AmountOfStudents;
 import ru.hogwards.school.model.Faculty;
 import ru.hogwards.school.model.Student;
 import ru.hogwards.school.services.StudentService;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/students")
@@ -70,12 +73,24 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping ("/facultyOfStudent/{id}")
-    public Faculty findFaculty (@PathVariable long id){
+    @GetMapping("/facultyOfStudent/{id}")
+    public Faculty findFaculty(@PathVariable long id) {
         return studentService.findFacultyOfStudent(id);
     }
 
+    @GetMapping("/student/getAmount")
+    public Integer getAmount() {
+        return studentService.countStudents();
+    }
 
+    @GetMapping("/student/getAvgAge")
+    public Integer avgAge() {
+        return studentService.avgAgeOfStudents();
+    }
+    @GetMapping("/student/getLastFiveStudents")
+    public List<Student> lastFiveStudents() {
+        return studentService.lastFiveStudents();
+    }
 
 //    @GetMapping("/ageFilter/{age}")
 //    public ResponseEntity<Collection<Student>> getStudentByAge(@PathVariable int age) {
