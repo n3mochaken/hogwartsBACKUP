@@ -1,5 +1,5 @@
 ALTER TABLE student
-    ADD CONSTRAINT age_constraint CHECK (age => 16);
+    ADD CONSTRAINT age_constraint CHECK (age > 16);
 ALTER TABLE student
     ADD CONSTRAINT name_constraint UNIQUE (name);
 ALTER  TABLE student
