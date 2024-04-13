@@ -1,5 +1,7 @@
 package ru.hogwards.school.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.hogwards.school.exeptions.FacultyNotFoundException;
 import ru.hogwards.school.model.Faculty;
@@ -26,29 +28,39 @@ public class FacultyService {
         return facultyRepository.save(faculty);
     }
 
+    Logger logger = LoggerFactory.getLogger(FacultyService.class);
+
     public Faculty editFaculty(Faculty faculty) {
+        logger.debug("Running edit faculty method");
         return facultyRepository.save(faculty);
     }
 
+
     public Faculty findFaculty(long id) {
+        logger.debug("Running find faculty method");
         return facultyRepository.findById(id).get();
     }
 
     public void deleteFaculty(long id) {
+        logger.debug("Running delete faculty method");
         facultyRepository.deleteById(id);
     }
 
     public Collection<Faculty> getAllFaculty() {
+        logger.debug("Running get all faculty method");
         return facultyRepository.findAll();
     }
 
     public Collection<Faculty> findByColor(String color) {
+        logger.debug("Running get by color faculty method");
         return facultyRepository.findFacultyByColorIgnoreCase(color);
     }  public Collection<Faculty> findByName(String name) {
+        logger.debug("Running find student of faculty by name method");
         return facultyRepository.findFacultyByNameIgnoreCase(name);
     }
 
     public Collection<Student> getAllStudentsOfFaculty(Long id) {
+        logger.debug("Running get all students of faculty method");
         return facultyRepository.getReferenceById(id).getStudents();
     }
 

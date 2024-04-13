@@ -1,5 +1,7 @@
 package ru.hogwards.school.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -38,7 +40,11 @@ public class AvatarService {
         this.studentRepository = studentRepository;
     }
 
+    Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
     public void uploadAvatar(Long studentID, MultipartFile avatarFile) throws IOException {
+
+        logger.debug("Trying to upload image!");
         Student student = studentRepository.getById(studentID);
 
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
@@ -62,10 +68,12 @@ public class AvatarService {
 
 
         avatarRepository.save(avatar);
+        logger.debug("Upload imagine done!");
 
     }
 
     private byte[] generationDataForDb (Path filepath) throws IOException{
+        logger.debug("Running some understandable method");
         try (
                 InputStream is = Files.newInputStream(filepath);
                 BufferedInputStream bis = new BufferedInputStream(is,1024);
@@ -92,6 +100,7 @@ public class AvatarService {
     }
 
     public Avatar findAvatar(Long studentId) {
+        logger.debug("Finding avatar for student by id");
         return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
 
     }

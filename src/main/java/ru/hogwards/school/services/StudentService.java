@@ -1,5 +1,7 @@
 package ru.hogwards.school.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import ru.hogwards.school.model.AmountOfStudents;
 import ru.hogwards.school.model.Faculty;
@@ -20,48 +22,60 @@ public class StudentService {
         this.studentRepository = studentRepository;
     }
 
+    Logger logger = LoggerFactory.getLogger(StudentService.class);
+
+
 //    private final HashMap<Long, Student> studentMap = new HashMap<>();
 //    private long lastId = 0;
 
     public Student createStudent(Student student) {
+        logger.debug("Running create student method");
         return studentRepository.save(student);
     }
 
     public Student editStudent(Student student) {
+        logger.debug("Running edit student method");
         return studentRepository.save(student);
     }
 
     public Student findStudent(long id) {
+        logger.debug("Running find student method");
         return studentRepository.findById(id).get();
     }
 
     public void deleteStudent(long id) {
+        logger.debug("Running delete student method");
         studentRepository.deleteById(id);
-
     }
 
     public Collection<Student> getAllStudents() {
+        logger.debug("Running find all student method");
         return studentRepository.findAll();
     }
 
     public Collection<Student> findByAgeBetween (int min, int max) {
+        logger.debug("Running find by min max age student method");
         return studentRepository.findByAgeBetween(min, max);
 
     }
 
     public Faculty findFacultyOfStudent(long id) {
+        logger.debug("Running find faculty of student method");
         return findStudent(id).getFaculty();
     }
 
     public Integer countStudents(){
+        logger.debug("Running count student method");
         return studentRepository.countStudents();
     }
 
     public Float avgAgeOfStudents(){
+        logger.debug("Running avg age student method");
         return studentRepository.AvgAgeOfStudents();
     }
 
     public List <Student> lastFiveStudents (){
+        logger.debug("Running get last 5 student method");
         return studentRepository.getLastFiveStudents();
     }
 
