@@ -12,6 +12,7 @@ import ru.hogwards.school.services.StudentService;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 @RestController
@@ -107,9 +108,9 @@ public class StudentController {
 
     @GetMapping("/calculateSum")
     public int calculateValue() {
-        int sum = Stream.iterate(1, a -> a + 1)
-                .limit(1_000_000)
-                .reduce(0, (a, b) -> a + b);
+        int sum = IntStream.rangeClosed(1, 1000000)
+                .parallel()
+                .sum();
         return sum;
     }
 
