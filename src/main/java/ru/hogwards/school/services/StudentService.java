@@ -3,15 +3,14 @@ package ru.hogwards.school.services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import ru.hogwards.school.model.AmountOfStudents;
+import ru.hogwards.school.exeptions.StudentNotFoundException;
 import ru.hogwards.school.model.Faculty;
 import ru.hogwards.school.model.Student;
 import ru.hogwards.school.repositories.StudentRepository;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 
@@ -79,6 +78,22 @@ public class StudentService {
         return studentRepository.getLastFiveStudents();
     }
 
+    public List<String> getStudentNamesStartingWithA() {
+        return studentRepository.findAll().stream()
+                .map(Student::getName)
+                .filter(name -> name.startsWith("A"))
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public double getAverageStudentAge() {
+        List<Student> students = studentRepository.findAll();
+        if (students.isEmpty()) {
+            throw new StudentNotFoundException("no students");
+        }
+        int totalAge = students.stream().mapToInt(Student::getAge).sum();
+        return (double) totalAge / students.size();
+    }
 
 
 //    public List<Student> getStudentsByAge(int age) {

@@ -12,6 +12,7 @@ import ru.hogwards.school.services.StudentService;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/students")
@@ -90,6 +91,26 @@ public class StudentController {
     @GetMapping("/student/getLastFiveStudents")
     public List<Student> lastFiveStudents() {
         return studentService.lastFiveStudents();
+    }
+
+
+    @GetMapping("/students/starting-with-a")
+    public List<String> getStudentNamesStartingWithA() {
+        return studentService.getStudentNamesStartingWithA();
+    }
+
+    @GetMapping("/students/average-age")
+    public double getAverageStudentAge() {
+        return studentService.getAverageStudentAge();
+    }
+
+
+    @GetMapping("/calculateSum")
+    public int calculateValue() {
+        int sum = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b);
+        return sum;
     }
 
 //    @GetMapping("/ageFilter/{age}")

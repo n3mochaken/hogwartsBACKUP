@@ -11,6 +11,7 @@ import ru.hogwards.school.repositories.FacultyRepository;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 
@@ -62,6 +63,23 @@ public class FacultyService {
     public Collection<Student> getAllStudentsOfFaculty(Long id) {
         logger.debug("Running get all students of faculty method");
         return facultyRepository.getReferenceById(id).getStudents();
+    }
+
+    public List<String> getLongestFacultyNames() {
+        List<Faculty> faculties = facultyRepository.findAll();
+
+
+        int maxLength = faculties.stream()
+                .map(Faculty::getName)
+                .mapToInt(String::length)
+                .max()
+                .orElse(0);
+
+
+        return faculties.stream()
+                .map(Faculty::getName)
+                .filter(name -> name.length() == maxLength)
+                .collect(Collectors.toList());
     }
 
 

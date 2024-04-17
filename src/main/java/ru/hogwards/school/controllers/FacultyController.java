@@ -7,6 +7,7 @@ import ru.hogwards.school.model.Student;
 import ru.hogwards.school.services.FacultyService;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/faculty")
@@ -63,6 +64,11 @@ public class FacultyController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(studentsOnFaculty);
+    }
+
+    @GetMapping("/faculties/longest-names")
+    public List<String> getLongestFacultyNames() {
+        return facultyService.getLongestFacultyNames();
     }
 
 
