@@ -131,6 +131,20 @@ public class StudentController {
         return sum;
     }
 
+    @GetMapping("/print-parallel")
+    public void parallelPrint (){
+        studentService.parallelPrint();
+    }
+
+    @GetMapping("/print-parallel-synchronized")
+    public void parallelPrintSynchronized (){
+        studentService.parallelPrintSynchronized();
+    }
+    @GetMapping("/print-parallel-synchronized-flag")
+    public void parallelPrintSynchronizedFlag (){
+        studentService.parallelPrintSynchronizedFlag();
+    }
+
 
 //    @GetMapping("/ageFilter/{age}")
 //    public ResponseEntity<Collection<Student>> getStudentByAge(@PathVariable int age) {
