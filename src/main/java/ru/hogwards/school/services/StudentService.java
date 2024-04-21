@@ -97,18 +97,16 @@ public class StudentService {
     }
 
     public void parallelPrint() {
-        StudentService studentService = new StudentService(studentRepository);
-
-        studentService.printStudent(1);
-        studentService.printStudent(2);
+        printStudent(1);
+        printStudent(2);
         new Thread(() -> {
-            studentService.printStudent(19);
-            studentService.printStudent(20);
+            printStudent(19);
+            printStudent(20);
         }).start();
 
         new Thread(() -> {
-            studentService.printStudent(21);
-            studentService.printStudent(22);
+            printStudent(21);
+            printStudent(22);
         }).start();
     }
 
@@ -116,32 +114,28 @@ public class StudentService {
 
 
     public void parallelPrintSynchronized() {
-
-        StudentService studentService = new StudentService(studentRepository);
-        studentService.printStudentSynchronized(1);
-        studentService.printStudentSynchronized(2);
+        printStudentSynchronized(1);
+        printStudentSynchronized(2);
         new Thread(() -> {
-            studentService.printStudentSynchronized(19);
-            studentService.printStudentSynchronized(20);
+            printStudentSynchronized(19);
+            printStudentSynchronized(20);
         }).start();
         new Thread(() -> {
-            studentService.printStudentSynchronized(21);
-            studentService.printStudentSynchronized(22);
+            printStudentSynchronized(21);
+            printStudentSynchronized(22);
         }).start();
     }
 
     public void parallelPrintSynchronizedFlag() {
-
-        StudentService studentService = new StudentService(studentRepository);
-        studentService.printStudentFlag(1);
-        studentService.printStudentFlag(2);
+        printStudentFlag(1);
+        printStudentFlag(2);
         new Thread(() -> {
-            studentService.printStudentFlag(19);
-            studentService.printStudentFlag(20);
+            printStudentFlag(19);
+            printStudentFlag(20);
         }).start();
         new Thread(() -> {
-            studentService.printStudentFlag(21);
-            studentService.printStudentFlag(22);
+            printStudentFlag(21);
+            printStudentFlag(22);
         }).start();
     }
 
@@ -151,9 +145,9 @@ public class StudentService {
     private synchronized void printStudentSynchronized(int id) {
         System.out.println(findStudent(id));
     }
-
+    public Object flag = new Object();
     private void printStudentFlag(int id) {
-        synchronized (StudentService.class){
+        synchronized (Object.class){
             System.out.println(findStudent(id));
         }
 
