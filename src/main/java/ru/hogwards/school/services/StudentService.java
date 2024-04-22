@@ -131,7 +131,7 @@ public class StudentService {
     private void printStudent(int id) {
         System.out.println(findStudent(id));
     }
-    public Object flag = new Object();
+    public Object flag  = new Object();
     private void printStudentFlag(int id) {
         synchronized (flag){
             System.out.println(findStudent(id));
