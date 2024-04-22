@@ -136,10 +136,7 @@ public class StudentController {
         studentService.parallelPrint();
     }
 
-    @GetMapping("/print-parallel-synchronized")
-    public void parallelPrintSynchronized (){
-        studentService.parallelPrintSynchronized();
-    }
+
     @GetMapping("/print-parallel-synchronized-flag")
     public void parallelPrintSynchronizedFlag (){
         studentService.parallelPrintSynchronizedFlag();

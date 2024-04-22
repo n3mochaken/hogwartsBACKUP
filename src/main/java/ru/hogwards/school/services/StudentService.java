@@ -113,18 +113,7 @@ public class StudentService {
 
 
 
-    public void parallelPrintSynchronized() {
-        printStudentSynchronized(1);
-        printStudentSynchronized(2);
-        new Thread(() -> {
-            printStudentSynchronized(19);
-            printStudentSynchronized(20);
-        }).start();
-        new Thread(() -> {
-            printStudentSynchronized(21);
-            printStudentSynchronized(22);
-        }).start();
-    }
+
 
     public void parallelPrintSynchronizedFlag() {
         printStudentFlag(1);
@@ -142,12 +131,9 @@ public class StudentService {
     private void printStudent(int id) {
         System.out.println(findStudent(id));
     }
-    private synchronized void printStudentSynchronized(int id) {
-        System.out.println(findStudent(id));
-    }
     public Object flag = new Object();
     private void printStudentFlag(int id) {
-        synchronized (Object.class){
+        synchronized (flag){
             System.out.println(findStudent(id));
         }
 
