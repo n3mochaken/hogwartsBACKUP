@@ -1,14 +1,22 @@
 package ru.hogwards.school.controllers;
 
 
+import org.hibernate.type.IntegerType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwards.school.model.AmountOfStudents;
 import ru.hogwards.school.model.Faculty;
 import ru.hogwards.school.model.Student;
+import ru.hogwards.school.services.AvatarService;
 import ru.hogwards.school.services.StudentService;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/students")
@@ -20,6 +28,8 @@ public class StudentController {
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
     }
+
+    Logger logger = LoggerFactory.getLogger(StudentController.class);
 
     @GetMapping("/{id}")
     public ResponseEntity getStudentInfo(@PathVariable Long id) {
@@ -70,11 +80,67 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping ("/facultyOfStudent/{id}")
-    public Faculty findFaculty (@PathVariable long id){
+    @GetMapping("/facultyOfStudent/{id}")
+    public Faculty findFaculty(@PathVariable long id) {
         return studentService.findFacultyOfStudent(id);
     }
 
+    @GetMapping("/student/getAmount")
+    public Integer getAmount() {
+        return studentService.countStudents();
+    }
+
+    @GetMapping("/student/getAvgAge")
+    public Float avgAge() {
+        return studentService.avgAgeOfStudents();
+    }
+    @GetMapping("/student/getLastFiveStudents")
+    public List<Student> lastFiveStudents() {
+        return studentService.lastFiveStudents();
+    }
+
+
+    @GetMapping("/students/starting-with-a")
+    public List<String> getStudentNamesStartingWithA() {
+        return studentService.getStudentNamesStartingWithA();
+    }
+
+    @GetMapping("/students/average-age")
+    public double getAverageStudentAge() {
+        return studentService.getAverageStudentAge();
+    }
+
+
+    @GetMapping("/calculateSum")
+    public int calculateValue() {
+        long m = System.currentTimeMillis();
+
+        int sum = IntStream.rangeClosed(1, 1000000)
+                .parallel()
+                .sum();
+        logger.debug("time " + (double) (System.currentTimeMillis() - m));
+        return sum;
+    }
+    @GetMapping("/calculateSumTest")
+    public int calculateValueTest() {
+        long m = System.currentTimeMillis();
+        int sum = Stream.iterate(1, a -> a + 1)
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b);
+        logger.debug("time " + (double) (System.currentTimeMillis() - m));
+        return sum;
+    }
+
+    @GetMapping("/print-parallel")
+    public void parallelPrint (){
+        studentService.parallelPrint();
+    }
+
+
+    @GetMapping("/print-parallel-synchronized-flag")
+    public void parallelPrintSynchronizedFlag (){
+        studentService.parallelPrintSynchronizedFlag();
+    }
 
 
 //    @GetMapping("/ageFilter/{age}")

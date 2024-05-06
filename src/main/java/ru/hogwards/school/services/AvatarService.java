@@ -1,6 +1,9 @@
 package ru.hogwards.school.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwards.school.model.Avatar;
@@ -16,6 +19,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static io.swagger.v3.core.util.AnnotationsUtils.getExtensions;
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
@@ -36,7 +40,11 @@ public class AvatarService {
         this.studentRepository = studentRepository;
     }
 
+    Logger logger = LoggerFactory.getLogger(AvatarService.class);
+
     public void uploadAvatar(Long studentID, MultipartFile avatarFile) throws IOException {
+
+        logger.debug("Trying to upload image!");
         Student student = studentRepository.getById(studentID);
 
         Path filePath = Path.of(avatarsDir, student + "." + getExtensions(avatarFile.getOriginalFilename()));
@@ -60,10 +68,12 @@ public class AvatarService {
 
 
         avatarRepository.save(avatar);
+        logger.debug("Upload imagine done!");
 
     }
 
     private byte[] generationDataForDb (Path filepath) throws IOException{
+        logger.debug("Running some understandable method");
         try (
                 InputStream is = Files.newInputStream(filepath);
                 BufferedInputStream bis = new BufferedInputStream(is,1024);
@@ -90,7 +100,13 @@ public class AvatarService {
     }
 
     public Avatar findAvatar(Long studentId) {
+        logger.debug("Finding avatar for student by id");
         return avatarRepository.findByStudentId(studentId).orElse(new Avatar());
 
+    }
+
+    public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize) {
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        return avatarRepository.findAll(pageRequest).getContent();
     }
 }
